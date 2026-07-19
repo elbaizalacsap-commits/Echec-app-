@@ -191,13 +191,8 @@
   </div>
 </div>
 
-<!-- Librairies (chargées via CDN, avec repli si le premier CDN échoue) -->
-<script src="https://unpkg.com/chess.js@0.13.4/chess.js"></script>
-<script>
-  if (typeof Chess === "undefined") {
-    document.write('<script src="https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.js"><\/script>');
-  }
-</script>
+<!-- Moteur d'échecs hébergé localement (aucune dépendance à un CDN externe) -->
+<script src="chess-engine.js"></script>
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>

@@ -5,12 +5,13 @@
    est normal puisqu'il synchronise deux appareils différents.
    ============================================================ */
 
-const CACHE_NOM = "echiquier-v3";
+const CACHE_NOM = "echiquier-v4";
 const FICHIERS_A_METTRE_EN_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
+  "./chess-engine.js",
   "./supabase-config.js",
   "./manifest.json",
   "./icons/icon-192.png",
