@@ -7,7 +7,16 @@ const SYMBOLES = {
   P: "♙", R: "♖", N: "♘", B: "♗", Q: "♕", K: "♔",
 };
 
-let partie = new Chess();
+let partie;
+try {
+  partie = new Chess();
+} catch (erreurInit) {
+  const banniere = document.createElement("div");
+  banniere.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:9999;background:#c1584a;color:#fff;padding:14px;text-align:center;font-family:sans-serif;font-size:14px;";
+  banniere.textContent = "La bibliothèque d'échecs n'a pas pu se charger (connexion ou CDN). Recharge la page.";
+  document.body.prepend(banniere);
+  partie = null;
+}
 let modeActuel = "ordinateur";     // ordinateur | local | enligne
 let couleurJoueur = "w";           // couleur du joueur humain principal
 let caseSelectionnee = null;

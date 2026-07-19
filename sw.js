@@ -5,7 +5,7 @@
    est normal puisqu'il synchronise deux appareils différents.
    ============================================================ */
 
-const CACHE_NOM = "echiquier-v2";
+const CACHE_NOM = "echiquier-v3";
 const FICHIERS_A_METTRE_EN_CACHE = [
   "./",
   "./index.html",
