@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Échiquier — jeu d'échecs</title>
+<meta name="description" content="Joue aux échecs contre l'ordinateur, en local ou en ligne, avec plusieurs échiquiers au choix." />
+<meta name="theme-color" content="#10151a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============== ÉCRAN : MENU PRINCIPAL ============== -->
+<section id="ecranMenu" class="ecran ecran--menu actif">
+  <div class="fondEchiquier" id="fondAnime" aria-hidden="true"></div>
+
+  <header class="entete">
+    <div class="marque">
+      <span class="marque-piece">♞</span>
+      <span class="marque-texte">Échiquier</span>
+    </div>
+    <button class="btn-icone" id="btnParametres" aria-label="Paramètres">⚙️</button>
+  </header>
+
+  <div class="menu-corps">
+    <h1 class="titre-signature">Chaque partie<br>raconte une histoire.</h1>
+
+    <div class="cartes-modes">
+      <button class="carte-mode" data-mode="ordinateur">
+        <span class="carte-mode-icone">🤖</span>
+        <span class="carte-mode-titre">Contre l'ordinateur</span>
+        <span class="carte-mode-sous">Facile à très difficile</span>
+      </button>
+      <button class="carte-mode" data-mode="local">
+        <span class="carte-mode-icone">🪑</span>
+        <span class="carte-mode-titre">Deux joueurs, un écran</span>
+        <span class="carte-mode-sous">Passe-et-joue</span>
+      </button>
+      <button class="carte-mode" data-mode="enligne">
+        <span class="carte-mode-icone">🌐</span>
+        <span class="carte-mode-titre">Jouer en ligne</span>
+        <span class="carte-mode-sous">Défie quelqu'un, où qu'il soit</span>
+      </button>
+    </div>
+
+    <button class="lien-actus" id="btnOuvrirActus">📰 Actus</button>
+
+    <p class="etat-connexion" id="etatConnexion"></p>
+  </div>
+</section>
+
+<!-- ============== ÉCRAN : RÉGLAGES CONTRE L'ORDINATEUR ============== -->
+<section id="ecranReglagesOrdi" class="ecran ecran--reglages">
+  <header class="entete entete--sobre">
+    <button class="btn-retour" data-retour="ecranMenu">← Retour</button>
+    <h2>Contre l'ordinateur</h2>
+  </header>
+  <div class="panneau-reglages">
+    <div class="champ-groupe">
+      <label>Niveau de difficulté</label>
+      <div class="segmented" id="choixDifficulte">
+        <button data-niveau="1" class="seg-btn actif">Facile</button>
+        <button data-niveau="2" class="seg-btn">Moyen</button>
+        <button data-niveau="3" class="seg-btn">Difficile</button>
+        <button data-niveau="4" class="seg-btn">Très difficile</button>
+      </div>
+    </div>
+    <div class="champ-groupe">
+      <label>Jouer avec les</label>
+      <div class="segmented">
+        <button data-couleur="blanc" class="seg-btn actif">Blancs</button>
+        <button data-couleur="noir" class="seg-btn">Noirs</button>
+      </div>
+    </div>
+    <button class="btn-principal" id="btnLancerOrdi">Commencer la partie</button>
+  </div>
+</section>
+
+<!-- ============== ÉCRAN : LOBBY EN LIGNE ============== -->
+<section id="ecranEnLigne" class="ecran ecran--reglages">
+  <header class="entete entete--sobre">
+    <button class="btn-retour" data-retour="ecranMenu">← Retour</button>
+    <h2>Jouer en ligne</h2>
+  </header>
+  <div class="panneau-reglages">
+    <div class="bloc-invite">
+      <h3>Créer une partie</h3>
+      <p class="texte-discret">Génère un code à partager avec ton adversaire.</p>
+      <button class="btn-principal" id="btnCreerPartie">Créer une partie</button>
+      <div id="codePartieZone" class="code-partie-zone" style="display:none;">
+        <p class="texte-discret">Code de la partie :</p>
+        <div class="code-partie" id="codePartieAffiche">— — — —</div>
+        <p class="texte-discret" id="statutAttente">En attente d'un adversaire…</p>
+      </div>
+    </div>
+    <div class="separateur-ou">ou</div>
+    <div class="bloc-rejoindre">
+      <h3>Rejoindre une partie</h3>
+      <input type="text" id="champCodeRejoindre" placeholder="Code à 4 caractères" maxlength="4" autocapitalize="characters" />
+      <button class="btn-secondaire" id="btnRejoindrePartie">Rejoindre</button>
+    </div>
+    <p class="message-etat" id="messageEnLigne"></p>
+  </div>
+</section>
+
+<!-- ============== ÉCRAN : ACTUS ============== -->
+<section id="ecranActus" class="ecran ecran--reglages">
+  <header class="entete entete--sobre">
+    <button class="btn-retour" data-retour="ecranMenu">← Retour</button>
+    <h2>Actus</h2>
+  </header>
+  <div class="panneau-reglages">
+    <div id="listeActus" class="liste-actus">
+      <p class="texte-discret">Chargement…</p>
+    </div>
+    <a href="/admin" class="lien-admin-discret">Gérer les publications (réservé) →</a>
+  </div>
+</section>
+
+<!-- ============== ÉCRAN : JEU ============== -->
+<section id="ecranJeu" class="ecran ecran--jeu">
+  <header class="entete entete--jeu">
+    <button class="btn-retour" data-retour="ecranMenu">← Quitter</button>
+    <span class="statut-partie" id="statutPartie">Trait aux blancs</span>
+    <button class="btn-icone" id="btnThemePlateau" aria-label="Changer d'échiquier">🎨</button>
+  </header>
+
+  <div class="zone-jeu">
+    <div class="joueur-bandeau" id="bandeauHaut">
+      <span class="joueur-nom" id="nomJoueurHaut">Adversaire</span>
+      <span class="pieces-capturees" id="capturesHaut"></span>
+    </div>
+
+    <div class="plateau-conteneur">
+      <div id="plateau" class="plateau theme-bois"></div>
+    </div>
+
+    <div class="joueur-bandeau" id="bandeauBas">
+      <span class="joueur-nom" id="nomJoueurBas">Toi</span>
+      <span class="pieces-capturees" id="capturesBas"></span>
+    </div>
+  </div>
+
+  <div class="panneau-lateral" id="panneauLateral">
+    <h3>Historique des coups</h3>
+    <ol class="historique-coups" id="historiqueCoups"></ol>
+  </div>
+</section>
+
+<!-- ============== SÉLECTEUR DE THÈME (superposition) ============== -->
+<div id="superpositionTheme" class="superposition" style="display:none;">
+  <div class="carte-superposition">
+    <h3>Choisis ton échiquier</h3>
+    <div class="grille-themes">
+      <button class="vignette-theme" data-theme="bois">
+        <span class="vignette-apercu theme-bois-apercu"></span>
+        Bois classique
+      </button>
+      <button class="vignette-theme" data-theme="neon">
+        <span class="vignette-apercu theme-neon-apercu"></span>
+        Néon
+      </button>
+      <button class="vignette-theme" data-theme="minimal">
+        <span class="vignette-apercu theme-minimal-apercu"></span>
+        Minimaliste
+      </button>
+      <button class="vignette-theme" data-theme="historique">
+        <span class="vignette-apercu theme-historique-apercu"></span>
+        Historique
+      </button>
+    </div>
+    <button class="btn-secondaire" id="btnFermerTheme">Fermer</button>
+  </div>
+</div>
+
+<!-- ============== FIN DE PARTIE (superposition) ============== -->
+<div id="superpositionFin" class="superposition" style="display:none;">
+  <div class="carte-superposition carte-fin">
+    <p class="fin-icone" id="finIcone">♚</p>
+    <h3 id="finTitre">Partie terminée</h3>
+    <p class="texte-discret" id="finDetail"></p>
+    <div class="boutons-fin">
+      <button class="btn-principal" id="btnRejouer">Rejouer</button>
+      <button class="btn-secondaire" data-retour="ecranMenu">Menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Librairies (chargées via CDN) -->
+<script src="https://unpkg.com/chess.js@0.13.4/chess.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  // Redirection standard après confirmation de compte Netlify Identity
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
+
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
